@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTO.TaskDTO;
 import com.example.demo.Entity.Task;
 import com.example.demo.service.TaskService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import jakarta.validation.Valid;
 
 @RestController
@@ -32,8 +34,14 @@ public class TaskController {
 
     @PostMapping
     @Operation(summary = "Cria uma nova tarefa")
-    public Task createTask(@Valid @RequestParam String titulo) {
-        return taskService.createTask(titulo);
+    public Task createTask(@RequestBody @Valid TaskDTO data) {
+        Task task = new Task();
+        task.setDeadLine(data.getDeadLine());
+        task.setPriority(data.getPriority());
+        task.setStatus(data.getStatus());
+        task.setTittle(data.getTittle());
+        task.setType(data.getType());
+        return taskService.createTask(task);
     }
 
     @PutMapping("/{id}")

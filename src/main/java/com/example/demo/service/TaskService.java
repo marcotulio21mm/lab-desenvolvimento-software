@@ -30,9 +30,8 @@ public class TaskService {
         }
     }
 
-    public Task createTask(String tittle) {
-        Task task = new Task(tittle);
-        task.setTittle(tittle);
+    public Task createTask(Task task) {
+        
         task.setStatus("pending");
         return taskRepository.save(task);
     }

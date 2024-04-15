@@ -25,8 +25,16 @@ public class Task {
     @Column(nullable = false)
     private String status;
 
-    public Task(String tittle) {
-        this.tittle = tittle;
+    @Column(nullable = true)
+    private String type;
+
+    @Column(nullable = true)
+    private String priority;
+
+    @Column(nullable = true)
+    private String deadLine; //prazo 
+
+    public Task() {
     }
 
     public Long getId() {
@@ -52,6 +60,31 @@ public class Task {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getPriority() {
+        return this.priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public String getDeadLine() {
+        return this.deadLine;
+    }
+
+    public void setDeadLine(String deadLine) {
+        this.deadLine = deadLine;
+    }
+ 
 
     @Override
     public String toString() {
