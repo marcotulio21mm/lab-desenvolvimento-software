@@ -1,5 +1,8 @@
 package com.example.demo.Entity;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,7 +35,13 @@ public class Task {
     private String priority;
 
     @Column(nullable = true)
-    private String deadLine; //prazo 
+    private LocalDate deadLine; // prazo
+
+    @Column(nullable = true)
+    private LocalDate insertDate;
+
+    @Column(nullable = true)
+    private Integer deadLineDays;
 
     public Task() {
     }
@@ -77,14 +86,29 @@ public class Task {
         this.priority = priority;
     }
 
-    public String getDeadLine() {
+    public LocalDate getDeadLine() {
         return this.deadLine;
     }
 
-    public void setDeadLine(String deadLine) {
+    public void setDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
     }
- 
+
+    public void setInsertDate(LocalDate insertDate) {
+        this.insertDate = insertDate;
+    }
+
+    public LocalDate getInsertDate() {
+        return this.insertDate;
+    }
+
+    public void setDeadLineDays(Integer deadLineDays){
+        this.deadLineDays = deadLineDays;
+    }
+
+    public Integer getDeadLineDays(){
+        return this.deadLineDays;
+    }
 
     @Override
     public String toString() {

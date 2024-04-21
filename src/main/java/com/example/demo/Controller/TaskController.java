@@ -35,13 +35,8 @@ public class TaskController {
     @PostMapping
     @Operation(summary = "Cria uma nova tarefa")
     public Task createTask(@RequestBody @Valid TaskDTO data) {
-        Task task = new Task();
-        task.setDeadLine(data.getDeadLine());
-        task.setPriority(data.getPriority());
-        task.setStatus(data.getStatus());
-        task.setTittle(data.getTittle());
-        task.setType(data.getType());
-        return taskService.createTask(task);
+        
+        return taskService.createTask(data);
     }
 
     @PutMapping("/{id}")

@@ -1,5 +1,7 @@
 package com.example.demo.DTO;
 
+import java.time.LocalDate;
+
 import io.micrometer.common.lang.Nullable;
 import jakarta.validation.constraints.NotBlank;
 
@@ -12,7 +14,7 @@ public class TaskDTO {
     @Nullable
     private String priority;
     @Nullable
-    private String deadLine;
+    private LocalDate deadLine;
     @Nullable
     private String status;
 
@@ -41,11 +43,11 @@ public class TaskDTO {
         this.priority = priority;
     }
 
-    public String getDeadLine() {
+    public LocalDate getDeadLine() {
         return this.deadLine;
     }
 
-    public void setDeadLine(String deadLine) {
+    public void setDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
     }
 
