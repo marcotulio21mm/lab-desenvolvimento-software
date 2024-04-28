@@ -1,11 +1,13 @@
 CREATE TABLE tasks (
-                           id BIGINT PRIMARY KEY,
-                           titulo VARCHAR(255) NOT NULL,
-                           status BOOLEAN NOT NULL DEFAULT FALSE
-);
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `tittle` VARCHAR(45) NOT NULL,
+  `status` VARCHAR(45) NULL,
+  `type` VARCHAR(45) NULL,
+  `priority` VARCHAR(45) NULL,
+  `dead_line` VARCHAR(45) NULL,
+  `insert_date` DATE NULL,
+  `dead_line_days` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`));
 
-INSERT INTO tasks (id, titulo, status) VALUES (1, 'Estudar para o exame', false),
-                                                  (2, 'Fazer compras', true),
-                                                  (3, 'Ir ao médico', false),
-                                                  (4, 'Enviar relatório', true),
-                                                  (5, 'Consultar nota no sga', true);
+
+INSERT INTO `tasks` (`tittle`, `status`, `type`, `priority`, `insert_date`) VALUES ('estudar ihc', 'concluido', 'livre', 'alta', '2024-04-27');

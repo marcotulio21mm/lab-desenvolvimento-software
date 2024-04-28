@@ -4,10 +4,11 @@ import java.time.LocalDate;
 
 import io.micrometer.common.lang.Nullable;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 public class TaskDTO {
     
-    @NotBlank
+    // @NotBlank
     private String tittle;
     @Nullable
     private String type;
@@ -17,6 +18,10 @@ public class TaskDTO {
     private LocalDate deadLine;
     @Nullable
     private String status;
+    @Nullable
+    private LocalDate insertDate;
+    @Nullable
+    private String deadLineDays;
 
 
     public String getTittle() {
@@ -57,6 +62,22 @@ public class TaskDTO {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDate getInsertDate() {
+        return this.insertDate;
+    }
+
+    public void setInsertDate(LocalDate insertDate) {
+        this.insertDate = insertDate;
+    }
+
+    public String getDeadLineDays() {
+        return this.deadLineDays;
+    }
+
+    public void setDeadLineDays(String deadLineDays) {
+        this.deadLineDays = deadLineDays;
     }
 
 }

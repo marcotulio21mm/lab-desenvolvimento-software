@@ -21,11 +21,11 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Título não pode ser vazio")
+    // @NotBlank(message = "Título não pode ser vazio")
     @Column(nullable = false)
     private String tittle;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String status;
 
     @Column(nullable = true)

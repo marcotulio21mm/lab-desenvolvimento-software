@@ -64,7 +64,7 @@ public class TaskService {
         }
     }
 
-    public Task createTask(TaskDTO data) {
+    public Task createTask(Task data) {
         
         Task task = new Task();
         task.setDeadLine(data.getDeadLine()); //prazo
@@ -76,10 +76,14 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public Task updateTask(long id, String tittle) {
+    public Task updateTask(long id, TaskDTO data) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
-            task.setTittle(tittle);
+            task.setDeadLine(data.getDeadLine());
+            task.setPriority(data.getPriority());
+            task.setStatus(data.getStatus());
+            task.setTittle(data.getTittle());
+            task.setType(data.getType());
             return taskRepository.save(task);
         }
         return null;
@@ -88,7 +92,7 @@ public class TaskService {
     public Task concludeTask(Long id) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
-            task.setStatus("completed");
+            task.setStatus("concluído");
             return taskRepository.save(task);
         }
         return null;

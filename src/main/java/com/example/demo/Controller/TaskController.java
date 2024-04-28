@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.TaskDTO;
@@ -34,15 +33,15 @@ public class TaskController {
 
     @PostMapping
     @Operation(summary = "Cria uma nova tarefa")
-    public Task createTask(@RequestBody @Valid TaskDTO data) {
+    public Task createTask(@RequestBody @Valid Task data) {
         
         return taskService.createTask(data);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Atualiza uma tarefa")
-    public Task updateTask(long id, String tittle) {
-        return taskService.updateTask(id, tittle);
+    public Task updateTask(long id, @RequestBody @Valid TaskDTO data) {
+        return taskService.updateTask(id, data);
     }
 
     @PutMapping("/{id}/conclude")

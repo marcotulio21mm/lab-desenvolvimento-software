@@ -1,0 +1,42 @@
+@startuml Basic Sample
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(usuario, "Usuário")
+System_Boundary(c1, "Task Api") {
+    Container(web_app, "TaskController", "", "Recebe as requisições HTTP da applicação e se conecta aos serviços") {
+        Component listAll
+        Component createTask
+        Component updateTask
+        Component concludeTask
+        Component deleteById
+    }
+    Container(service_task, "TaskService", "Spring Data Jpa", "Implementa as regras de negócio da aplicação e se conecta ao bd"){
+        Component listAllService
+        Component createTaskService
+        Component updateTaskService
+        Component concludeTaskService
+        Component deleteByIdService
+    }
+    Container(repository_task, "TaskRepository", "", "Executa as querys da aplicação"){
+        Component listAllRepository
+        Component createTaskRepository
+        Component updateTaskRepository
+        Component concludeTaskRepository
+        Component deleteByIdRepository
+    }
+}
+
+
+
+Rel(usuario, web_app, "Uses", "HTTPS")
+Rel(listAll, listAllService, "Invoca", "HTTP")
+Rel(createTask, createTaskService, "Invoca", "HTTP")
+Rel(updateTask, updateTaskService, "Invoca", "HTTP")
+Rel(concludeTask, concludeTaskService, "Invoca", "HTTP")
+Rel(deleteById, deleteByIdService, "Invoca", "HTTP")
+Rel(listAllService, listAllRepository, "Invoca", "HTTP")
+Rel(createTaskService, createTaskRepository, "Invoca", "HTTP")
+Rel(updateTaskService, updateTaskRepository, "Invoca", "HTTP")
+Rel(concludeTaskService, concludeTaskRepository, "Invoca", "HTTP")
+Rel(deleteByIdService, deleteByIdRepository, "Invoca", "HTTP")
+@enduml
