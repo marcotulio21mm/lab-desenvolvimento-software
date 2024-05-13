@@ -1,0 +1,92 @@
+package com.example.demo.integration;
+
+@ExtendWith(MockitoExtension.class)
+@RunWith(JUnitPlatform.class)
+@SpringBootTest(classes = {Roteiro01Application.class}, webEnvironment
+= SpringBootTest.WebEnvironment.DEFINED_PORT)
+@ActiveProfiles("test")
+
+public class TaskControllerIntegration {
+    @Before
+    public void setup() {
+        RestAssured.baseURI = "http://localhost:8080";
+        RestAssured.port = 8080;
+    }
+
+    @Test
+    public void givenUrl_whenSuccessOnGetsResponseAndJsonHasRequiredKV_thenCorrect() {
+        get("/tasks").then().statusCode(200);
+    }
+
+    @Test
+    public void testListAllTasks() {
+    given()
+        .contentType("application/json")
+    .when()
+        .get("/tasks")
+    .then()
+        .statusCode(200)
+        .body("size()", greaterThan(0));
+    }
+
+    @Test
+    public void testCreateTask() {
+    TaskDTO task = new TaskDTO();
+    task.setTitle("Nova Tarefa");
+    task.setDescription("Descrição da nova tarefa");
+
+    given()
+        .contentType("application/json")
+        .body(task)
+    .when()
+        .post("/tasks")
+    .then()
+        .statusCode(200)
+        .body("title", equalTo("Nova Tarefa"))
+        .body("description", equalTo("Descrição da nova tarefa"));
+    }
+
+    @Test
+    public void testUpdateTask() {
+    long taskId = 1; // ID da tarefa a ser atualizada
+    TaskDTO updatedTask = new TaskDTO();
+    updatedTask.setTitle("Tarefa Atualizada");
+    updatedTask.setDescription("Nova descrição da tarefa");
+
+    given()
+        .contentType("application/json")
+        .body(updatedTask)
+    .when()
+        .put("/tasks/" + taskId)
+    .then()
+        .statusCode(200)
+        .body("title", equalTo("Tarefa Atualizada"))
+        .body("description", equalTo("Nova descrição da tarefa"));
+    }
+
+    @Test
+    public void testConcludeTask() {
+    long taskId = 1; // ID da tarefa a ser concluída
+
+    given()
+        .contentType("application/json")
+    .when()
+        .put("/tasks/" + taskId + "/conclude")
+    .then()
+        .statusCode(200)
+        .body("status", equalTo("CONCLUDED"));
+    }
+
+    @Test
+    public void testDeleteTaskById() {
+    long taskId = 1; // ID da tarefa a ser deletada
+
+    given()
+        .contentType("application/json")
+    .when()
+        .delete("/tasks/" + taskId)
+    .then()
+        .statusCode(204);
+    }
+
+}
