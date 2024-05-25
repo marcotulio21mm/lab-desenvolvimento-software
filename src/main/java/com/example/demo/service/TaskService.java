@@ -15,6 +15,8 @@ import com.example.demo.DTO.TaskDTO;
 import com.example.demo.Entity.Task;
 import com.example.demo.Repository.TaskRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class TaskService {
     
@@ -64,15 +66,16 @@ public class TaskService {
         }
     }
 
-    public Task createTask(Task data) {
-        
+    @Transactional
+    public Task createTask(TaskDTO data) {
         Task task = new Task();
-        task.setDeadLine(data.getDeadLine()); //prazo
+        task.setDeadLine(data.getDeadLine());
         task.setPriority(data.getPriority());
         task.setStatus(data.getStatus());
         task.setTittle(data.getTittle());
         task.setType(data.getType());
         task.setInsertDate(LocalDate.now());
+        task.setDeadLineDays(data.getDeadLineDays());
         return taskRepository.save(task);
     }
 

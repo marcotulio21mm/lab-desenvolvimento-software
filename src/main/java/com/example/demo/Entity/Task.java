@@ -28,7 +28,7 @@ public class Task {
     @Column(nullable = true)
     private String status;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private String type;
 
     @Column(nullable = true)
@@ -41,7 +41,7 @@ public class Task {
     private LocalDate insertDate;
 
     @Column(nullable = true)
-    private Integer deadLineDays;
+    private Long deadLineDays;
 
     public Task() {
     }
@@ -102,11 +102,11 @@ public class Task {
         return this.insertDate;
     }
 
-    public void setDeadLineDays(Integer deadLineDays){
+    public void setDeadLineDays(Long deadLineDays){
         this.deadLineDays = deadLineDays;
     }
 
-    public Integer getDeadLineDays(){
+    public Long getDeadLineDays(){
         return this.deadLineDays;
     }
 

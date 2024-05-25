@@ -2,27 +2,21 @@ package com.example.demo.DTO;
 
 import java.time.LocalDate;
 
-import io.micrometer.common.lang.Nullable;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 public class TaskDTO {
-    
-    // @NotBlank
-    private String tittle;
-    @Nullable
-    private String type;
-    @Nullable
-    private String priority;
-    @Nullable
-    private LocalDate deadLine;
-    @Nullable
-    private String status;
-    @Nullable
-    private LocalDate insertDate;
-    @Nullable
-    private String deadLineDays;
 
+    @NotBlank
+    private String tittle;
+    private String type;
+    private String priority;
+    private LocalDate deadLine;
+    private String status;
+    private LocalDate insertDate;
+    private Long deadLineDays;  // Corrigido para Long
+
+    // Getters and Setters
 
     public String getTittle() {
         return this.tittle;
@@ -72,12 +66,11 @@ public class TaskDTO {
         this.insertDate = insertDate;
     }
 
-    public String getDeadLineDays() {
+    public Long getDeadLineDays() {
         return this.deadLineDays;
     }
 
-    public void setDeadLineDays(String deadLineDays) {
+    public void setDeadLineDays(Long deadLineDays) {
         this.deadLineDays = deadLineDays;
     }
-
 }
