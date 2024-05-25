@@ -48,11 +48,9 @@ public class TaskServiceTest {
         task2.setType("prazo");
         task2.setStatus("pendente");
         task2.setInsertDate(LocalDate.now());
-        task2.setDeadLineDays(5);
+        task2.setDeadLineDays(5L);
         tasks.add(task2);
     }
-
-    // Tests will go here
 
     @Test
     public void testListAll() {
@@ -70,14 +68,19 @@ public class TaskServiceTest {
 
     @Test
     public void testCreateTask() {
+        TaskDTO taskDTO = new TaskDTO();
+        taskDTO.setType("data");
+        taskDTO.setStatus("pendente");
+        taskDTO.setDeadLine(LocalDate.now().plusDays(3));
+
         Task newTask = new Task();
-        newTask.setType("data");
-        newTask.setStatus("pendente");
-        newTask.setDeadLine(LocalDate.now().plusDays(3));
+        newTask.setType(taskDTO.getType());
+        newTask.setStatus(taskDTO.getStatus());
+        newTask.setDeadLine(taskDTO.getDeadLine());
 
         when(taskRepository.save(any(Task.class))).thenReturn(newTask);
 
-        Task createdTask = taskService.createTask(newTask);
+        Task createdTask = taskService.createTask(taskDTO);
 
         assertNotNull(createdTask);
         assertEquals("data", createdTask.getType());
@@ -128,5 +131,4 @@ public class TaskServiceTest {
 
         verify(taskRepository, times(1)).deleteById(1L);
     }
-
 }
