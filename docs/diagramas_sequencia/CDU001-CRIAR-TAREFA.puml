@@ -1,0 +1,51 @@
+@startuml
+title Diagrama de Sequencia referente ao CDU001 - Criar Tarefa
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control TaskController
+Entity Task
+Participant TaskService
+Participant TaskRepository
+Participant pagedResourcesAssembler
+Boundary TypedQuery
+Participant Hibernate
+Database TodoList
+activate SpringBoot
+Usuário -> Frontend: Criar tarefa
+activate Usuário
+activate Frontend
+activate TodoList
+Frontend -> SpringBoot: POST api/tasks/
+group Roteiro01Application [Spring Boot Java Application]
+SpringBoot -> TaskController: createTask(TaskDTO)
+activate TaskController
+TaskController -> TaskService: createTask(TaskDTO)
+activate TaskService
+TaskService -> TaskRepository: insert(TaskDTO)
+activate TaskRepository
+TaskRepository -> TypedQuery: getResult(TaskDto)
+group JPA Framework[Hibernate]
+Activate TypedQuery
+TypedQuery -> Hibernate: List(TaskDto)
+Activate Hibernate
+Hibernate -> TodoList: INSERT INTO tasks (tittle, type, priority, deadLine, status, insertDate, deadLineDays) VALUES (tittle, type, priority, deadLine, status, insertDate, deadLineDays)
+TodoList --> Hibernate: Table Tasks
+Hibernate --> TypedQuery: Table Tasks
+TypedQuery --> TaskRepository: Page<Tasks>
+destroy TypedQuery
+end
+TaskRepository --> TaskService: Page<Task>
+destroy TaskRepository
+TaskService -->TaskController: Page<Task> events
+destroy TaskService
+TaskController -> pagedResourcesAssembler: toModel(events, resourceAssembler)
+activate pagedResourcesAssembler
+pagedResourcesAssembler --> TaskController: PagedModel<Task> resource
+destroy pagedResourcesAssembler
+TaskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.ok(resource)
+destroy TaskController
+end
+SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.ok(resource)
+Frontend --> Usuário: <list>Task
+@enduml

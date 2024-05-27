@@ -1,0 +1,51 @@
+@startuml
+title Diagrama de Sequencia referente ao CDU002 - ATUALIZAR Tarefa
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control TaskController
+Entity Task
+Participant TaskService
+Participant TaskRepository
+Participant pagedResourcesAssembler
+Boundary TypedQuery
+Participant Hibernate
+Database TodoList
+activate SpringBoot
+Usuário -> Frontend: ATUALIZAR tarefa
+activate Usuário
+activate Frontend
+activate TodoList
+Frontend -> SpringBoot: PUT api/tasks/
+group Roteiro01Application [Spring Boot Java Application]
+SpringBoot -> TaskController: updateTask(TaskDTO)
+activate TaskController
+TaskController -> TaskService: updateTask(TaskDTO)
+activate TaskService
+TaskService -> TaskRepository: updateTask(TaskDTO)
+activate TaskRepository
+TaskRepository -> TypedQuery: getResult(TaskDto)
+group JPA Framework[Hibernate]
+Activate TypedQuery
+TypedQuery -> Hibernate: Object Task
+Activate Hibernate
+Hibernate -> TodoList: UPDATE tasks SET (tittle='Tarefa 3', type='data', priority='alta', deadLine='2024-05-01', status='pendente', insertDate='2024-05-01', deadLineDays='30') WHERE id_task = id
+TodoList --> Hibernate: Table Tasks
+Hibernate --> TypedQuery: Table Tasks
+TypedQuery --> TaskRepository: Page<Tasks>
+destroy TypedQuery
+end
+TaskRepository --> TaskService: Page<Task>
+destroy TaskRepository
+TaskService -->TaskController: Page<Task> events
+destroy TaskService
+TaskController -> pagedResourcesAssembler: toModel(events, resourceAssembler)
+activate pagedResourcesAssembler
+pagedResourcesAssembler --> TaskController: PagedModel<Task> resource
+destroy pagedResourcesAssembler
+TaskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.ok(resource)
+destroy TaskController
+end
+SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.ok(resource)
+Frontend --> Usuário: <list>Task
+@enduml

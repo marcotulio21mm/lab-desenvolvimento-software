@@ -1,0 +1,51 @@
+@startuml
+title Diagrama de Sequencia referente ao CDU003 - Excluir Tarefa
+actor Usuário
+Boundary Frontend
+Boundary SpringBoot
+Control TaskController
+Entity Task
+Participant TaskService
+Participant TaskRepository
+Participant pagedResourcesAssembler
+Boundary TypedQuery
+Participant Hibernate
+Database TodoList
+activate SpringBoot
+Usuário -> Frontend: Excluir tarefa
+activate Usuário
+activate Frontend
+activate TodoList
+Frontend -> SpringBoot: DELETE api/tasks/idTask
+group Roteiro01Application [Spring Boot Java Application]
+SpringBoot -> TaskController: deleteById(Long)
+activate TaskController
+TaskController -> TaskService: deleteById(Long)
+activate TaskService
+TaskService -> TaskRepository: deleteById(Long)
+activate TaskRepository
+TaskRepository -> TypedQuery: deleteById(Long)
+group JPA Framework[Hibernate]
+Activate TypedQuery
+TypedQuery -> Hibernate: Object Task
+Activate Hibernate
+Hibernate -> TodoList: DELETE FROM task WHERE id_task=id
+TodoList --> Hibernate: Table Tasks
+Hibernate --> TypedQuery: Table Tasks
+TypedQuery --> TaskRepository: Page<Tasks>
+destroy TypedQuery
+end
+TaskRepository --> TaskService: Page<Task>
+destroy TaskRepository
+TaskService -->TaskController: Page<Task> events
+destroy TaskService
+TaskController -> pagedResourcesAssembler: toModel(events, resourceAssembler)
+activate pagedResourcesAssembler
+pagedResourcesAssembler --> TaskController: PagedModel<Task> resource
+destroy pagedResourcesAssembler
+TaskController --> SpringBoot: ResponseEntity<Task> ResponseEntity.ok(resource)
+destroy TaskController
+end
+SpringBoot --> Frontend : ResponseEntity<Task> ResponseEntity.ok(resource)
+Frontend --> Usuário: 
+@enduml
