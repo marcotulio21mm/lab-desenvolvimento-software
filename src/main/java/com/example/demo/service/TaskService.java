@@ -29,7 +29,7 @@ public class TaskService {
             taskRepository.findAll().forEach(taskList::add);
 
             if (taskList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(taskList, HttpStatus.OK);
             }
 
             LocalDate today = LocalDate.now();
@@ -48,8 +48,8 @@ public class TaskService {
                 }
 
                 if (deadline != null) {
-                    if ("concluído".equals(status)) {
-                        task.setStatus("concluído");
+                    if ("concluido".equals(status)) {
+                        task.setStatus("concluido");
                     } else if (deadline.isAfter(today)) {
                         long daysUntilDeadline = ChronoUnit.DAYS.between(today, deadline);
                         task.setStatus("previsto");
@@ -95,7 +95,7 @@ public class TaskService {
     public Task concludeTask(Long id) {
         Task task = taskRepository.findById(id).orElse(null);
         if (task != null) {
-            task.setStatus("concluído");
+            task.setStatus("concluido");
             return taskRepository.save(task);
         }
         return null;

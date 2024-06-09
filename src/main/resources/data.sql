@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS tasks;
+
 CREATE TABLE tasks (
   `id` INT NOT NULL AUTO_INCREMENT,
   `tittle` VARCHAR(45) NOT NULL,
@@ -10,4 +12,4 @@ CREATE TABLE tasks (
   PRIMARY KEY (`id`));
 
 
-INSERT INTO `tasks` (`tittle`, `status`, `type`, `priority`, `insert_date`) VALUES ('estudar ihc', 'concluido', 'livre', 'alta', '2024-04-27');
+INSERT INTO `tasks` (`id`,`tittle`, `status`, `type`, `priority`, `insert_date`) VALUES (1,'estudar ihc', 'concluido', 'livre', 'alta', '2024-04-27');

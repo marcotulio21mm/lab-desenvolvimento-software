@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class TaskDTO {
 
+    private Long id;
     @NotBlank
     private String tittle;
     private String type;
@@ -17,6 +18,14 @@ public class TaskDTO {
     private Long deadLineDays;  // Corrigido para Long
 
     // Getters and Setters
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setTittle(Long id) {
+        this.id = id;
+    }
 
     public String getTittle() {
         return this.tittle;

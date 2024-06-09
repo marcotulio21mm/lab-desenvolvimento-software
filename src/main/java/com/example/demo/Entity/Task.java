@@ -35,10 +35,10 @@ public class Task {
     private String priority;
 
     @Column(nullable = true)
-    private LocalDate deadLine; // prazo
+    private LocalDate insertDate;
 
     @Column(nullable = true)
-    private LocalDate insertDate;
+    private LocalDate deadLine; // prazo
 
     @Column(nullable = true)
     private Long deadLineDays;
