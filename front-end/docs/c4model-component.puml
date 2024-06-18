@@ -1,0 +1,53 @@
+@startuml TarefaAPI_Specification
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Boundary(tarefaApiBoundary, "Todo List Application") {
+
+    Container(taskTable, "TaskTable", "React Component", "Componente que exibe a tabela de tarefas") {
+        Component calculateDeliveryDate
+        Component handleOpenEditModal
+        Component handleOpenDeleteDialog
+        Component handleConfirm
+    }
+
+    Container(taskForm, "TaskForm", "React Component", "Formulário para adicionar novas tarefas") {
+        Component setTitle
+        Component setPriority
+        Component setAge
+        Component setDataEsperada
+        Component setDiasPrevisto
+        Component handleAddTarefa
+    }
+
+    Container(editTaskDialog, "EditTaskDialog", "React Component", "Diálogo para editar tarefas") {
+        Component handleCloseEditModal
+        Component handleEditChange
+        Component handleEditSubmit
+    }
+
+    ' Interligando os componentes
+    Rel(taskTable, calculateDeliveryDate, "Invoca")
+    Rel(taskTable, handleOpenEditModal, "Invoca")
+    Rel(taskTable, handleOpenDeleteDialog, "Invoca")
+    Rel(taskTable, handleConfirm, "Invoca")
+
+    Rel(taskForm, setTitle, "Invoca")
+    Rel(taskForm, setPriority, "Invoca")
+    Rel(taskForm, setAge, "Invoca")
+    Rel(taskForm, setDataEsperada, "Invoca")
+    Rel(taskForm, setDiasPrevisto, "Invoca")
+    Rel(taskForm, handleAddTarefa, "Invoca")
+
+    Rel(editTaskDialog, handleCloseEditModal, "Invoca")
+    Rel(editTaskDialog, handleEditChange, "Invoca")
+    Rel(editTaskDialog, handleEditSubmit, "Invoca")
+
+    ' Comunicação entre os componentes
+    Rel(taskTable, editTaskDialog, "Usa")
+    Rel(taskTable, taskForm, "Usa")
+    Rel(editTaskDialog, taskTable, "Comunica")
+    Rel(taskForm, taskTable, "Comunica")
+}
+
+@enduml

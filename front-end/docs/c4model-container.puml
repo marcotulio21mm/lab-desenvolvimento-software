@@ -1,0 +1,22 @@
+@startuml TarefaAPI_Container
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+System_Boundary(tarefaApiBoundary, "Todo List Application") {
+    Container(frontend, "Frontend", "React", "Aplicação frontend que gerencia tarefas") {
+        Container(taskTable, "TaskTable", "React Component", "Componente que exibe a tabela de tarefas")
+        Container(taskForm, "TaskForm", "React Component", "Formulário para adicionar novas tarefas")
+        Container(editTaskDialog, "EditTaskDialog", "React Component", "Diálogo para editar tarefas")
+
+        Rel(taskTable, taskForm, "Utiliza")
+        Rel(taskTable, editTaskDialog, "Utiliza")
+    }
+
+    Container(api, "Backend API", "Spring Boot API", "API que gerencia operações CRUD das tarefas")
+    Rel(taskTable, api, "Comunica-se", "HTTP")
+}
+
+Person(user, "Usuário", "Usuário que interage com a aplicação Todo List")
+Rel(user, taskTable, "Usa", "HTTP")
+
+@enduml

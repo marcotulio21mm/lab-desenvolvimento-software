@@ -86,7 +86,7 @@ const App = () => {
 
   return (
     <Box sx={{textAlign: "center"}}>
-      <h2>Lista de tarefas</h2>
+      <h2>To-do List</h2>
       <Container>
         <TaskForm
           title={title}

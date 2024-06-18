@@ -1,0 +1,10 @@
+@startuml TarefaAPI_Overview
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "Usuário", "Usuário que interage com a aplicação Todo List")
+Container(spa, "Todo List Application", "React Application", "Frontend que gerencia as tarefas dos usuários")
+
+Rel(user, spa, "Usa", "HTTP")
+
+SHOW_LEGEND()
+@enduml
