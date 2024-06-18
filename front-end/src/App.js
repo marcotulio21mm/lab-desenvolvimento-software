@@ -1,6 +1,6 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Container } from '@mui/material';
-import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 import TaskForm from './components/TaskForm';
 import TaskTable from './components/TaskTable';
 import TaskDialog from './components/TaskDialog';
@@ -27,9 +27,14 @@ const App = () => {
     deadLineDays: '',
   });
 
+  useEffect(() => {
+    axios.get('http://localhost:8080/tasks')
+      .then(response => setRows(response.data))
+      .catch(error => console.error('Error fetching tasks:', error));
+  }, []);
+
   const handleAddTarefa = () => {
     const newTask = {
-      id: uuidv4(),
       tittle: title,
       priority: priority,
       status: 'pendente',
@@ -37,17 +42,26 @@ const App = () => {
       deadLine: dataEsperada,
       deadLineDays: diasPrevisto,
     };
-    setRows([...rows, newTask]);
-    setTitle('');
-    setPriority('');
-    setAge('');
-    setDataEsperada('');
-    setDiasPrevisto('');
+
+    axios.post('http://localhost:8080/tasks', newTask)
+      .then(response => {
+        setRows([...rows, response.data]);
+        setTitle('');
+        setPriority('');
+        setAge('');
+        setDataEsperada('');
+        setDiasPrevisto('');
+      })
+      .catch(error => console.error('Error creating task:', error));
   };
 
   const handleConfirm = (task) => {
-    setRows(rows.map(t => t.id === task.id ? { ...t, status: 'concluido' } : t));
-    handleClose();
+    axios.put(`http://localhost:8080/tasks/${task.id}/conclude`)
+      .then(response => {
+        setRows(rows.map(t => t.id === task.id ? response.data : t));
+        handleClose();
+      })
+      .catch(error => console.error('Error concluding task:', error));
   };
 
   const handleOpenDeleteDialog = (task) => {
@@ -71,13 +85,21 @@ const App = () => {
   };
 
   const handleEditSubmit = () => {
-    setRows(rows.map(t => t.id === taskToEdit.id ? taskToEdit : t));
-    handleCloseEditModal();
+    axios.put(`http://localhost:8080/tasks/${taskToEdit.id}`, taskToEdit)
+      .then(response => {
+        setRows(rows.map(t => t.id === taskToEdit.id ? response.data : t));
+        handleCloseEditModal();
+      })
+      .catch(error => console.error('Error updating task:', error));
   };
 
   const handleDelete = () => {
-    setRows(rows.filter(t => t.id !== selectedTask.id));
-    handleClose();
+    axios.delete(`http://localhost:8080/tasks/${selectedTask.id}`)
+      .then(() => {
+        setRows(rows.filter(t => t.id !== selectedTask.id));
+        handleClose();
+      })
+      .catch(error => console.error('Error deleting task:', error));
   };
 
   const handleClose = () => {
@@ -85,7 +107,7 @@ const App = () => {
   };
 
   return (
-    <Box sx={{textAlign: "center"}}>
+    <Box sx={{ textAlign: "center" }}>
       <h2>To-do List</h2>
       <Container>
         <TaskForm
